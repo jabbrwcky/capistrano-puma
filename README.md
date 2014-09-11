@@ -41,6 +41,14 @@ set :nginx_sites_available_path, "/etc/nginx/sites-available"
 set :nginx_sites_enabled_path, "/etc/nginx/sites-enabled"
 ```
 
+To configure the integration of puma with nginx the following properties can be set:
+```ruby
+		set :nginx_puma_upstreams, -> { [ "unix", "tcp", "ssl" ]} # Configure which puma endpoints should be added to nginx as upstream servers
+    set :nginx_flags, -> { 'fail_timeout=0' } # default flags for all upstream servers
+		set :nginx_http_flags, -> { fetch(:nginx_flags) } # flags for upstream tcp/http(s) servers
+		set :nginx_socket_flags -> { fetch(:nginx_flags) } # flags for socket servers
+```
+
 Configurable options, shown here with defaults: Please note the configuration options below are not required unless you are trying to override a default setting, for instance if you are deploying on a host on which you do not have sudo or root privileges and you need to restrict the path. These settings go in the deploy.rb file.
 
 ```ruby
